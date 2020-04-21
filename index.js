@@ -1,11 +1,32 @@
 const express  = require('express')
 const app = express()
+const passport = require('passport')
+const cookieSession = require('cookie-session')
+const mongoose = require('mongoose')
+const keys = require('./config/keys')
+require('./models/User')
 require('./services/passport')
-//718141363812-fijpr3s6uo8kpq2jaro2oes9s42vqnmj.apps.googleusercontent.com
-//1Vccji74aYfUzLcZei2lC2Z0
+
+// mongoose.set('useNewUrlParser', true);
+mongoose.connect("mongodb://localhost:27017/survey", {useNewUrlParser: true} );
+
+mongoose.connection.once('open', () => console.log("connected to survey db")).on('error',(error) => console.log(error))
 
 
+app.use(
+    cookieSession({
+        maxAge : 30*24*60*60*1000,
+        keys : [keys.sessionKey]
+    })
+    )
+    
+    app.use(passport.initialize())
+    app.use(passport.session())
+    
 require('./routes/authRoutes')(app)
+
+// mongoose.connect(keys.mongoURI);
+
 const PORT = process.env.PORT || 5000
 
 app.listen(5000, () => {
