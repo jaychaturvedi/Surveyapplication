@@ -8,10 +8,6 @@ function App() {
   const button = useSelector( state => state.button)
   const dispatch = useDispatch()
   console.log(counter, isLogged);
-  const runaction = () =>{
- signin()
- bSignin()
-  }
 
   return (
     <div>
