@@ -22,8 +22,8 @@ function App() {
       {/* <a href = "/auth/google">click here to signup</a> */}
       <button onClick={()=>dispatch(increment())}>+</button>
       <button onClick={()=>dispatch(decrement())} >-</button>
-      <button onClick={()=>dispatch(signin())}>info</button>
-      <button onClick={()=>dispatch(bSignin())}>{button}</button>
+
+      <button onClick={()=>dispatch(signin())}>{isLogged ?"hide" : "show"}</button>
 
       </div>
 </div>

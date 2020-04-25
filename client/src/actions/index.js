@@ -21,9 +21,9 @@ export const signin = () => {
 
 
 export const bSignin = () => {
-    return {
-        type : "bSignin"
 
+    return {
+        type : "show",
     }
 
 }
