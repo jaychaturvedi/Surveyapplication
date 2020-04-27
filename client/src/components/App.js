@@ -1,34 +1,34 @@
-import React ,{Fragment} from 'react';
-import { useSelector, useDispatch } from "react-redux";
-import {increment, decrement, bSignin, signin} from "../actions";
-// import decrement from "../actions";
-function App() {
-  const counter = useSelector( state => state.counter)
-  const isLogged = useSelector( state => state.isLogged)
-  const button = useSelector( state => state.button)
-  const dispatch = useDispatch()
-  console.log(counter, isLogged);
+import React, { Component } from "react";
+import {connect} from "react-redux";
+import Header from "./Header";
+import { BrowserRouter as Router,  Route} from "react-router-dom";
+import * as actions from '../actions'
 
-  return (
-    <div>
-<h3>
-  {counter}
-  </h3>
+const Dashboard = () => <h1> Dashboard </h1>;
+const Landing = () => <h1> Landing </h1>;
+const SurveyNew = () => <h1> SurveyNew </h1>;
 
-       {isLogged ? <h3> important info</h3> : ""}
+class App extends Component {
 
-      
-      <div>
-      {/* <a href = "/auth/google">click here to signup</a> */}
-      <button onClick={()=>dispatch(increment())}>+</button>
-      <button onClick={()=>dispatch(decrement())} >-</button>
+    componentDidMount() {
+        console.log("component did mount")
+        this.props.fetchUser()
+      }
+  render() {
+    return (
 
-      <button onClick={()=>dispatch(signin())}>{isLogged ?"hide" : "show"}</button>
-
+      <div className="container">
+        <Router>
+          <div>
+            <Header />
+            <Route exact path="/" component={Landing} />
+            <Route exact path="/surveys" component={Dashboard} />
+            <Route exact path="/surveys/new" component={SurveyNew} />
+          </div>
+        </Router>
       </div>
-</div>
-
-  )
+    );
+  }
 }
 
-export default App;
+export default connect(null, actions)(App);
