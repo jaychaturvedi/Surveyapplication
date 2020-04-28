@@ -6,7 +6,9 @@
   "scripts": {
     "server": "nodemon index.js",
     "client": "npm start --prefix client",
-    "dev": " (cd client && npm run start) & npm run server "
+    "dev": " (cd client && npm run start) & npm run server ",
+    "start": "node index.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",
