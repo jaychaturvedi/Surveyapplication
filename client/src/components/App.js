@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import {connect} from "react-redux";
 import Header from "./Header";
-import { BrowserRouter as Router,  Route} from "react-router-dom";
 import * as actions from '../actions'
+import { BrowserRouter as Router,  Route} from "react-router-dom";
 
 const Dashboard = () => <h1> Dashboard </h1>;
 const Landing = () => <h1> Landing </h1>;
