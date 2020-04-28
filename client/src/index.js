@@ -16,5 +16,6 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-
+console.log("environment is", process.env.NODE_ENV)
+console.log("public key is" , process.env.REACT_APP_STRIPE_KEY)
 serviceWorker.unregister();

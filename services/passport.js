@@ -6,12 +6,13 @@ const User = mongoose.model('users')
 
 
 passport.serializeUser((user, done) =>{
+    console.log("in serializer", user)
     done(null, user.id);
 });
 
 passport.deserializeUser((id, done) =>{
 	User.findById(id).then(user => {
-        console.log("user     ",user)
+        console.log("in desrializer ",user)
 		done(null, user);
 	});
 });
