@@ -9,7 +9,7 @@ require('./models/User')
 require('./services/passport')
 
 // mongoose.set('useNewUrlParser', true);
-mongoose.connect("mongodb://localhost:27017/survey", {useNewUrlParser: true} );
+mongoose.connect(keys.mongoURI, {useNewUrlParser: true} ); //"mongodb://localhost:27017/survey"
 
 mongoose.connection.once('open', () => console.log("connected to survey db")).on('error',(error) => console.log(error))
 

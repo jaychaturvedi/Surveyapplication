@@ -7,3 +7,4 @@ module.exports = {
     stripeSecretKey : process.env.STRIPE_SECRET_KEY
 
 }
+// mongodb+srv://qwerty:qwerty@1996@surveydb-4jcpj.mongodb.net/test 
