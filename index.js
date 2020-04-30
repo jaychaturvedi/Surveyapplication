@@ -6,6 +6,8 @@ const mongoose = require('mongoose')
 const keys = require('./config/keys')
 const bodyparser = require('body-parser')
 require('./models/User')
+require('./models/Survey')
+
 require('./services/passport')
 
 // mongoose.set('useNewUrlParser', true);
@@ -17,7 +19,7 @@ app.use(bodyparser.json())
 app.use(
     cookieSession({
         maxAge : 30*24*60*60*1000,
-        keys : [keys.sessionKey]
+        keys : [keys.cookieKey]
     })
     )
     
@@ -26,6 +28,8 @@ app.use(passport.session())
     
 require('./routes/authRoutes')(app)
 require('./routes/billingRoutes')(app)
+require('./routes/surveyRoutes')(app)
+
 
 if(process.env.NODE_ENV === 'production'){
     app.use(express.static('client/build'))
@@ -37,6 +41,6 @@ if(process.env.NODE_ENV === 'production'){
 
 const PORT = process.env.PORT || 5000
 
-app.listen(5000, () => {
+app.listen(PORT, () => {
     console.log('listening on port',PORT)
 })

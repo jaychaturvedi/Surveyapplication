@@ -6,7 +6,8 @@ import {createStore, applyMiddleware} from 'redux'
 import allReducers from './reducers';
 import * as serviceWorker from './serviceWorker';
 import thunk from 'redux-thunk';
-
+import axios from 'axios'
+window.axios = axios
 const store = createStore(allReducers,{}, applyMiddleware(thunk))
 
 ReactDOM.render(
