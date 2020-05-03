@@ -15,8 +15,7 @@ const app = express()
 mongoose.Promise = global.Promise;
 mongoose.connect(keys.mongoURI, {useNewUrlParser: true});
 mongoose.connection.once('open', () => console.log("connected to survey db")).on('error',(error) => console.log(error))
-// mongoose.connect(keys.mongoURI, {useNewUrlParser: true} ); 
-// mongoose.connection.once('open', () => console.log("connected to survey db")).on('error',(error) => console.log(error))
+
 
 app.use(cors())
 app.use(bodyparser.json())
