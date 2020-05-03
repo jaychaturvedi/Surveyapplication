@@ -5,16 +5,16 @@ const cookieSession = require('cookie-session')
 const mongoose = require('mongoose')
 const keys = require('./config/keys')
 const bodyparser = require('body-parser')
+const cors = require('cors')
 require('./models/User')
 require('./models/Survey')
-
 require('./services/passport')
 
-// mongoose.set('useNewUrlParser', true);
-mongoose.connect(keys.mongoURI, {useNewUrlParser: true} ); //"mongodb://localhost:27017/survey"
+
+mongoose.connect(keys.mongoURI, {useNewUrlParser: true} ); 
 
 mongoose.connection.once('open', () => console.log("connected to survey db")).on('error',(error) => console.log(error))
-
+app.use(cors())
 app.use(bodyparser.json())
 app.use(
     cookieSession({
