@@ -6,7 +6,7 @@
   "scripts": {
     "server": "nodemon index.js",
     "client": "npm start --prefix client",
-    "dev": " (cd client && npm run start) & npm run server ",
+    "dev": " (cd client && npm run start) & nodemon index ",
     "start": "node index.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
@@ -21,6 +21,7 @@
     "mongoose": "^5.9.9",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",
+    "redux-form": "^8.3.5",
     "sendgrid": "^5.2.3",
     "stripe": "^8.47.0"
   },
