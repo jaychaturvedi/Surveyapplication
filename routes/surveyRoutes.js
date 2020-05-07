@@ -1,4 +1,6 @@
-
+const { Path } = require('path-parser');
+const _ = require('lodash')
+const {URL} = require('url')
 const mongoose = require('mongoose');
 const requireLogin = require('../middlewares/requireLogin');
 const requireCredits = require('../middlewares/requireCredits');
@@ -8,15 +10,47 @@ const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 const Survey = mongoose.model('surveys');
 
 module.exports = app => {
-  app.get('/api/surveys/thanks', (req, res) => {
+  app.get('/api/surveys/:surveyId/:choice', (req, res) => {
     res.send('Thanks for voting!');
+  });
+
+  app.post('/api/surveys/webhooks', (req, res) => {
+    //req.body contains multiple click events send by sendgrid with url, sendgridId, surveyId, choice, etc.
+    const p = new Path('/api/surveys/:surveyId/:choice');
+    _.chain(req.body)
+      .map(({url, email}) => {
+      const pathname = new URL(url).pathname;
+      const match = p.test(pathname)
+        if(match){
+          return { email, ...match}
+        }
+      })
+      .compact()
+      .uniqBy('email','surveyId')
+      .each( ({surveyId, email, choice}) =>{
+        Survey.updateOne(
+          {
+            _id: surveyId,
+            recipients : {
+              $elemMatch : { email:email, responded : false}
+            }
+          },
+          {
+            $inc : { [choice]: 1},      // same as $inc : { 'yes' : 1}
+            $set : { 'recipients.$.responded' : true },
+            lastResponded : new Date()
+          }
+        ).exec()
+      })
+      .value()
+      console.log('saved')
+      res.send({})
+    
   });
 
   app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
     const { title, subject, body, recipients } = req.body;
-    
-    console.log('in route',recipients);
-    
+        
     const survey = new Survey({
       title,
       subject,
@@ -34,7 +68,6 @@ module.exports = app => {
     try {
       await mailer.send();
       await survey.save();
-      console.log('in route',survey.recipients);
       req.user.credits -= 1;
       const user = await req.user.save();
 
@@ -43,4 +76,6 @@ module.exports = app => {
       res.status(422).send(err);
     }
   });
+
+
 };
