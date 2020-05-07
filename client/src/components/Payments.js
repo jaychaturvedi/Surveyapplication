@@ -11,8 +11,7 @@ class Payments extends Component {
             description = "5$ for 5 credit"
             amount ={500}
             token = {token => {
-                console.log("in paymnt",token)
-                this.props.handleToken(token)
+                this.props.handleToken(token) //after validating our card details stripe returns a token which is then used for creating charges
                 }
                 
             }
