@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Payments from './Payments';
+import googleLogo from '../images/googleSignIn.jpg'
 
 class Header extends Component {
   renderContent() {
@@ -9,7 +10,12 @@ class Header extends Component {
       case null:
         return;
       case false:
-        return <li><a href="/auth/google">Login With Google</a></li>;
+        return <div className="col s2">
+          <a href="/auth/google">
+            <img className = "profile-img" src={googleLogo} alt="Logo" height="50px"/>
+            </a>
+            
+          </div>;
       default:
         return [
           <li key="1"><Payments /></li>,
@@ -29,7 +35,7 @@ class Header extends Component {
             to={this.props.auth ? '/surveys' : '/'}
             className="left brand-logo"
           >
-            Emaily
+            FeedBack 
           </Link>
           <ul className="right">
             {this.renderContent()}
