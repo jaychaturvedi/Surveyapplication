@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { fetchSurveys } from "../../actions";
+import { fetchSurveys, deleteSurvey } from "../../actions";
 import { connect } from "react-redux";
 import _ from "lodash";
 class SurveyList extends Component {
@@ -9,19 +9,23 @@ class SurveyList extends Component {
   renderContent() {
     return _.map(
       this.props.surveys.reverse(),
-      ({ _id, title, subject, body, yes, no, dateSent, lastResponded }) => {
+      (survey) => {
         return (
-          <div className="card blue-grey darken-1" key={_id}>
+          <div className="card blue-grey darken-1" key={survey._id}>
             <div className="card-content white-text">
-              <span className="card-title">{title}</span>
-              <p>{body}</p>
+              <span className="card-title">{survey.title}</span>
+              <p>{survey.body}</p>
               <p className="right">
-                Sent On : {new Date(dateSent).toLocaleDateString()}
+                Sent On : {new Date(survey.dateSent).toLocaleDateString()}
               </p>
             </div>
             <div className="card-action">
-              <a>Yes: {yes}</a>
-              <a>No : {no}</a>
+              <a>Yes: {survey.yes}</a>
+              <a>No : {survey.no}</a>
+              <button onClick = {()=>{this.props.deleteSurvey(survey._id)}} className="red btn-flat right white-text">
+            Delete
+            <i className="material-icons right">delete_forever</i>
+          </button>
             </div>
           </div>
         );
@@ -43,4 +47,4 @@ function mapStateToProps({ surveys }) {
   return { surveys };
 }
 
-export default connect(mapStateToProps, { fetchSurveys })(SurveyList);
+export default connect(mapStateToProps, { fetchSurveys, deleteSurvey })(SurveyList);

@@ -20,6 +20,15 @@ module.exports = app => {
     res.send('Thanks for voting!');
   });
 
+  app.delete('/api/surveys/:surveyId',requireLogin, async (req, res) => {
+    const surveyId = req.params.surveyId
+    await Survey.deleteOne({_id:surveyId}, function(err) {
+      if (err) console.log("erorororo");
+      console.log("1 document deleted",surveyId);
+    });
+   res.send({});
+  });
+
   app.post('/api/surveys/webhooks', (req, res) => {
     //req.body contains multiple click events send by sendgrid with url, sendgridId, surveyId, choice, etc.
     const p = new Path('/api/surveys/:surveyId/:choice');
